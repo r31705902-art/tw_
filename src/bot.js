@@ -155,17 +155,35 @@ class TgBot {
     const { provider, model } = llm.parseModelId(arg);
     if (!llm.PROVIDERS[provider]) return notify.say(`unknown provider: ${provider}. try: ${Object.keys(llm.PROVIDERS).join(', ')}`);
     const full = `${provider}:${model}`;
-    // verify it actually exists before switching — a typo otherwise surfaces as
-    // an agent task failure minutes later
+
+    // catalogue check first — cheap, catches typos
     try {
       const ids = await llm.listModels(provider);
       if (ids.length && !ids.includes(model) && !ids.includes(llm.baseModelId(model))) {
-        const hint = ids.slice(0, 8).join(', ');
-        return notify.say(`\`${model}\` is not in ${provider}'s catalogue.\nsample: ${hint}`);
+        return notify.say(`\`${model}\` is not in ${provider}'s catalogue.\nsample: ${ids.slice(0, 8).join(', ')}`);
       }
-    } catch (e) { /* catalogue unreachable: allow the switch anyway */ }
-    state.patch({ model: full });
-    notify.say(`model → \`${full}\``);
+    } catch (e) { /* catalogue unreachable: fall through to the live probe */ }
+
+    // then a real request. The catalogue lists globally-available models, not
+    // the ones deployed for this account — only a live call settles it.
+    try {
+      const r = await llm.chat({
+        model: full,
+        messages: [{ role: 'user', content: 'Reply with exactly: ready' }],
+        maxTokens: 256,
+      });
+      const got = (r.text || '').trim().slice(0, 40);
+      state.patch({ model: full });
+      notify.say(`model → \`${full}\`\nprobe ok${got ? `: ${got}` : ''}`);
+    } catch (e) {
+      notify.say([
+        `\`${full}\` did NOT answer.`,
+        ``,
+        `\`${String(e.message).slice(0, 300)}\``,
+        ``,
+        `model unchanged: \`${state.load().model}\``,
+      ].join('\n'));
+    }
   }
 
   cmdLog(n) { notify.say('```\n' + log.tail(n).slice(0, 3800) + '\n```'); }
