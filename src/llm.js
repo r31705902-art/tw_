@@ -36,6 +36,16 @@ const cursor = {};
 const cooldown = {};
 // providers whose daily free allowance is spent — skipped until the timer lapses
 const dailyCap = {};
+// last request time per provider, so a fast agent loop does not self-DoS
+const lastCall = {};
+const MIN_GAP_MS = Number(process.env.LLM_MIN_GAP_MS || 6000);
+
+async function throttle(provider) {
+  const prev = lastCall[provider] || 0;
+  const wait = prev + MIN_GAP_MS - Date.now();
+  if (wait > 0) await new Promise(r => setTimeout(r, wait));
+  lastCall[provider] = Date.now();
+}
 
 function nextKey(p) {
   const keys = PROVIDERS[p].keys();
@@ -222,6 +232,7 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   for (const key of candidates) {
     if (key && keyBlocked(provider, key)) { attempts.push('cooldown'); continue; }
     try {
+      await throttle(provider);
       const { status, json } = await fetchJson(`${spec.baseUrl()}/chat/completions`, {
         method: 'POST', headers: authHeaders(provider, key), body,
         timeoutMs: cfg.llm.timeoutMs,
@@ -277,7 +288,8 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
       attempts.push(e.message);
     }
   }
-  const err = new Error(`all ${provider} keys failed (${attempts.join(' | ').slice(0, 240)})`);
+  const detail = attempts.length ? attempts.join(' | ').slice(0, 240) : 'no attempts recorded';
+const err = new Error(`all ${provider} keys failed (${detail})`);
   err.provider = provider;
   const spent = attempts.every(a => a === '402 no credits' || a === 'cooldown' || a === '429 daily-cap');
   err.noCredits = attempts.length > 0 && spent;
