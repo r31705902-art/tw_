@@ -144,12 +144,13 @@ class Agent {
           const out = await runTool(call.name, args);
           history.push({ role: 'tool', tool_call_id: call.id, name: call.name, content: out.slice(0, 12000) });
           log.debug('agent', `tool ok ${call.name} -> ${out.slice(0, 200)}`);
-          if (/notify/i.test(call.name) || /^ok:|exit=0/.test(out)) { /* nothing */ }
         } catch (e) {
           const msg = `tool error: ${e.message}`;
           history.push({ role: 'tool', tool_call_id: call.id, name: call.name, content: msg });
+          // A tool failure is not an incident. The agent sees the error and
+          // adapts on the next turn; notifying here floods telegram with the
+          // agent's own trial-and-error, which is exactly what we do not want.
           log.warn('agent', `${call.name} -> ${e.message}`);
-          notify.warn(`tool ${call.name} failed: ${e.message}`);
         }
       }
 

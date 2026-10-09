@@ -76,10 +76,14 @@ const tools = {
   },
 
   list_dir: {
-    description: 'List files and directories inside the workspace.',
+    description: 'List files and directories inside the workspace. Pass a file path and you get its stat instead of an error.',
     parameters: { type: 'object', properties: { path: { type: 'string' }, depth: { type: 'number' } } },
     async run({ path: p = '.', depth = 2 }) {
       const abs = resolveInside(p);
+      if (!fs.existsSync(abs)) return `no such path: ${p}`;
+      const st = fs.statSync(abs);
+      // pointed at a file: describe it instead of throwing ENOTDIR
+      if (!st.isDirectory()) return `${p} is a file, ${st.size} bytes — use read_file for its contents`;
       const rows = [];
       const walk = (dir, d, prefix) => {
         for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {

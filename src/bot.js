@@ -150,12 +150,22 @@ class TgBot {
     notify.say(lines.join('\n').slice(0, 3900));
   }
 
-  cmdModel(arg) {
+  async cmdModel(arg) {
     if (!arg) return notify.say(`usage: /model <provider:model> — current \`${state.load().model}\``);
     const { provider, model } = llm.parseModelId(arg);
-    if (!llm.PROVIDERS[provider]) return notify.say(`unknown provider: ${provider}`);
-    state.patch({ model: `${provider}:${model}` });
-    notify.say(`model → \`${provider}:${model}\``);
+    if (!llm.PROVIDERS[provider]) return notify.say(`unknown provider: ${provider}. try: ${Object.keys(llm.PROVIDERS).join(', ')}`);
+    const full = `${provider}:${model}`;
+    // verify it actually exists before switching — a typo otherwise surfaces as
+    // an agent task failure minutes later
+    try {
+      const ids = await llm.listModels(provider);
+      if (ids.length && !ids.includes(model) && !ids.includes(llm.baseModelId(model))) {
+        const hint = ids.slice(0, 8).join(', ');
+        return notify.say(`\`${model}\` is not in ${provider}'s catalogue.\nsample: ${hint}`);
+      }
+    } catch (e) { /* catalogue unreachable: allow the switch anyway */ }
+    state.patch({ model: full });
+    notify.say(`model → \`${full}\``);
   }
 
   cmdLog(n) { notify.say('```\n' + log.tail(n).slice(0, 3800) + '\n```'); }

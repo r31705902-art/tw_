@@ -13,15 +13,23 @@ const BLOCKED = new Set([
   'chown', 'fsutil', 'vssadmin', 'cipher', 'sdelete',
 ]);
 
-// argument patterns that make an otherwise-allowed command destructive
+// argument patterns that make an otherwise-allowed command destructive.
+// NOTE: keep each pattern single-alternation. A top-level `|` splits the whole
+// regex in JS — `/a|b/` matches "a" OR "b", not "a followed by b". The earlier
+// version of this file read `/ > | >> \/(dev|…)/ ` and therefore blocked every
+// command containing ">", which is why the agent stalled on ordinary redirects.
 const BLOCKED_ARGS = [
   /\brm\s+(-[a-zA-Z]*[rf][a-zA-Z]*\s+)+(\/|~|\$HOME|\*|\.\.)/i,
-  /\brm\s+-rf?\s+\S+\s+\*/i,
   /\bdel\s+\/[sqf]/i,
   /\bformat\s+[a-z]:/i,
   /\bdd\s+.*of=\/dev\//i,
-  /:\(\)\s*\{\s*:\|:&\s*\}/,                                  // fork bomb
-  /\>|\>\>\s*\/(dev|etc|proc|sys|boot)/i,                     // clobber system dirs
+  /\btruncate\s+-s\s*0\s+\/dev\//i,
+  /\bmkfs\b/i,
+  /\bfdisk\b/i,
+  /:\(\)\s*\{\s*:\|:&\s*\}/,                    // fork bomb
+  />\s*\/dev\/(sd|nvme|disk)/i,                 // clobber a raw device
+  />\s*\/etc\//i,                               // clobber /etc
+  />\s*\/boot\//i,                              // clobber the bootloader
 ];
 
 function checkCmd(parts) {
@@ -31,8 +39,9 @@ function checkCmd(parts) {
     throw new Error(`command blocked by policy: ${bin}`);
   }
   const line = parts.join(' ');
-  if (BLOCKED_ARGS.some(rx => rx.test(line))) {
-    throw new Error('command blocked: destructive argument pattern');
+  const hit = BLOCKED_ARGS.find(rx => rx.test(line));
+  if (hit) {
+    throw new Error(`command blocked: destructive argument pattern (${hit})`);
   }
   return base;
 }
