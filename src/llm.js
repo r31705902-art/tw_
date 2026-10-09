@@ -163,7 +163,14 @@ function parseModelId(id) {
 // A "402 requires more credits" on openrouter's free tier means the free
 // allowance is spent. Every key on that provider is tried first; if all are
 // dry the call walks the fallback chain to a provider that still answers.
-const FALLBACK_ORDER = ['opencodezen', 'nvidia', 'tokenharbor'];
+const FALLBACK_ORDER = ['nvidia', 'opencodezen', 'openrouter', 'tokenharbor'];
+
+// Models verified to answer on the live gateways. The catalogue's first entry is
+// often a 404 or a restricted model, so blind picking wastes whole turns.
+const FALLBACK_PRESET = {
+  nvidia: 'moonshotai/kimi-k3',
+  openrouter: 'nvidia/nemotron-3-ultra-550b-a55b:free',
+};
 
 async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   const { provider, model: modelId } = parseModelId(model);
@@ -178,6 +185,12 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
     max_tokens: maxTokens || 1024,
   };
   if (tools && tools.length) { body.tools = tools; body.tool_choice = 'auto'; }
+  // reasoning models burn their whole budget in reasoning_tokens and return an
+  // empty content string with finish=length. A small ceiling therefore looks
+  // like a dead model. Give reasoning models room to finish thinking.
+  if (!maxTokens && /nemotron|deepseek|kimi|gpt-5|gpt-6|sonnet|opus|reasoning/i.test(modelId)) {
+    body.max_tokens = 4096;
+  }
 
   const keys = spec.keys();
   // prefer the least-used key, skipping anything on cooldown
@@ -195,6 +208,14 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
         timeoutMs: cfg.llm.timeoutMs,
       });
       if (status === 401 || status === 403) {
+        const emsg = ((json && json.error && json.error.message) || '').toLowerCase();
+        // a 403 that names the model is a MODEL restriction, not a bad key —
+        // cooling the key down here would poison every later request
+        const modelLevel = /only available|not available|is only|requires|unsupported model|agentic harness/.test(emsg);
+        if (modelLevel) {
+          attempts.push(`${status} model-restricted`);
+          continue;
+        }
         // try once without a key before declaring the provider dead
         try {
           const retry = await fetchJson(`${spec.baseUrl()}/chat/completions`, {
@@ -208,7 +229,16 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
         continue;
       }
       if (status === 402) { attempts.push('402 no credits'); continue; }
-      if (status === 429) { blockKey(provider, key, 60 * 1000); attempts.push('429'); continue; }
+      if (status === 429) {
+        // a daily free-tier cap is an ACCOUNT limit, not a per-key one — the
+        // other key of the same account may still have quota, so do NOT cool
+        // this key down, just try the next one
+        const msg = ((json && json.error && json.error.message) || '').toLowerCase();
+        const daily = /free-models-per-day|daily|per day/.test(msg);
+        attempts.push(daily ? '429 daily-cap' : '429 rate-limited');
+        if (!daily) blockKey(provider, key, 60 * 1000);
+        continue;
+      }
       if (status >= 400) {
         attempts.push(`${status}: ${((json && json.error && (json.error.message || json.error.code)) || json.raw || '').toString().slice(0, 120)}`);
         continue;
@@ -222,7 +252,8 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   }
   const err = new Error(`all ${provider} keys failed (${attempts.join(' | ').slice(0, 240)})`);
   err.provider = provider;
-  err.noCredits = attempts.length > 0 && attempts.every(a => a === '402 no credits' || a === 'cooldown');
+  const spent = attempts.every(a => a === '402 no credits' || a === 'cooldown' || a === '429 daily-cap');
+  err.noCredits = attempts.length > 0 && spent;
   throw err;
 }
 
@@ -232,25 +263,40 @@ async function chat(opts) {
     return await chatOne(primary, opts);
   } catch (e) {
     if (!e.noCredits) throw e;
-    // every key on this provider is dry — walk the fallback chain
-    log.warn('llm', `${e.provider} out of credits, trying fallback providers`);
+    // every key on this provider is dry or daily-capped — walk the fallback
+    // chain, remembering which ones actually answer so later turns are cheap
+    log.warn('llm', `${e.provider} exhausted (${e.message.slice(0, 120)}), trying fallbacks`);
     for (const p of FALLBACK_ORDER) {
       if (p === e.provider) continue;
-      if (!PROVIDERS[p].keys().length) continue;
-      let ids = [];
-      try { ids = await listModels(p); } catch (err) { continue; }
-      const pick = ids[0];
-      if (!pick) continue;
+      if (p === 'tokenharbor' && !PROVIDERS[p].keys().length) continue;
+      let pick = FALLBACK_PICK[p];
+      if (!pick) {
+        pick = FALLBACK_PRESET[p] || null;
+        if (!pick) {
+          let ids = [];
+          try { ids = await listModels(p); } catch (err) { continue; }
+          pick = ids[0];
+        }
+        if (!pick) continue;
+        FALLBACK_PICK[p] = pick;
+      }
       try {
+        const out = await chatOne(`${p}:${pick}`, opts);
         log.info('llm', `fallback -> ${p}:${pick}`);
-        return await chatOne(`${p}:${pick}`, opts);
+        return out;
       } catch (e2) {
-        if (!e2.noCredits) throw e2;
+        log.warn('llm', `fallback ${p}:${pick} failed: ${e2.message.slice(0, 100)}`);
+        // this model is not usable for us; do not retry it every turn
+        delete FALLBACK_PICK[p];
+        if (!e2.noCredits) { /* keep walking the chain */ }
       }
     }
     throw e;
   }
 }
+
+// remembered working fallback model per provider
+const FALLBACK_PICK = {};
 
 function normalize(json) {
   const choice = (json.choices && json.choices[0]) || {};
