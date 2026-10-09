@@ -34,6 +34,8 @@ const PROVIDERS = {
 // per-provider round-robin key cursor + cooldown map
 const cursor = {};
 const cooldown = {};
+// providers whose daily free allowance is spent — skipped until the timer lapses
+const dailyCap = {};
 
 function nextKey(p) {
   const keys = PROVIDERS[p].keys();
@@ -177,6 +179,14 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   const spec = PROVIDERS[provider];
   if (!spec) throw new Error(`unknown provider in model id: ${model}`);
 
+  if (dailyCap[provider] && dailyCap[provider] > Date.now()) {
+    const err = new Error(`${provider} daily free cap reached`);
+    err.provider = provider;
+    err.noCredits = true;
+    err.parked = true;
+    throw err;
+  }
+
   const body = {
     model: baseModelId(modelId),
     messages,
@@ -244,8 +254,16 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
         // this key down, just try the next one
         const msg = ((json && json.error && json.error.message) || '').toLowerCase();
         const daily = /free-models-per-day|daily|per day/.test(msg);
-        attempts.push(daily ? '429 daily-cap' : '429 rate-limited');
-        if (!daily) blockKey(provider, key, 60 * 1000);
+        if (daily) {
+          // remember it: re-probing a spent provider every turn burns time and
+          // floods the log with noise
+          dailyCap[provider] = Date.now() + 12 * 60 * 60 * 1000;
+          log.warn('llm', `${provider}: daily free cap reached, parking it for 12h`);
+          attempts.push('429 daily-cap');
+          continue;
+        }
+        attempts.push('429 rate-limited');
+        blockKey(provider, key, 60 * 1000);
         continue;
       }
       if (status >= 400) {

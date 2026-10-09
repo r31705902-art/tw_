@@ -19,21 +19,30 @@ start().catch(e => {
 
 async function pickWorkingModel() {
   const llm = require('./llm');
-  const cat = await llm.catalogue();
-  const cands = [];
-  for (const p of Object.keys(cat)) {
-    for (const m of cat[p]) cands.push(`${p}:${m}${/:free$/i.test(m) ? '' : ''}`);
+  // Probe the CONFIGURED model first. Walking the whole catalogue burns quota
+  // on providers that are already known dead and delays boot for no gain.
+  const configured = state.load().model;
+  const order = [configured];
+  for (const m of ['nvidia:moonshotai/kimi-k3', 'openrouter:nvidia/nemotron-3-ultra-550b-a55b:free']) {
+    if (!order.includes(m)) order.push(m);
   }
-  // prefer openrouter free first, then nvidia, then anything else
-  cands.sort((a, b) => {
-    const rank = (x) => (x.startsWith('openrouter') ? 0 : x.startsWith('nvidia') ? 1 : 2);
-    return rank(a) - rank(b);
-  });
-  for (const model of cands.slice(0, 6)) {
+
+  for (const model of order) {
+    if (!model) continue;
     try {
-      const r = await llm.chat({ model, messages: [{ role: 'user', content: 'reply with the single word: ready' }], maxTokens: 8 });
-      if (r.text || r.toolCalls.length) { log.info('boot', `model probe ok: ${model}`); return model; }
-    } catch (e) { log.debug('boot', `probe ${model}: ${e.message.slice(0, 80)}`); }
+      const r = await llm.chat({
+        model,
+        messages: [{ role: 'user', content: 'reply with the single word: ready' }],
+        maxTokens: 256,
+      });
+      if ((r.text || '').trim() || r.toolCalls.length) {
+        log.info('boot', `model probe ok: ${model}`);
+        return model;
+      }
+      log.debug('boot', `probe ${model}: empty reply`);
+    } catch (e) {
+      log.debug('boot', `probe ${model}: ${e.message.slice(0, 90)}`);
+    }
   }
   return null;
 }
