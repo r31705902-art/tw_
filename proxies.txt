@@ -1,0 +1,12 @@
+# datacenter proxies — committed so the agent has a fallback tier
+# format: host:port:username:password
+31.59.20.176:6754:pvoijlsx:vfzapofkjnf6
+45.38.107.97:6014:pvoijlsx:vfzapofkjnf6
+64.137.96.74:6641:pvoijlsx:vfzapofkjnf6
+198.23.243.226:6361:pvoijlsx:vfzapofkjnf6
+38.154.185.97:6370:pvoijlsx:vfzapofkjnf6
+84.247.60.125:6095:pvoijlsx:vfzapofkjnf6
+142.111.67.146:5611:pvoijlsx:vfzapofkjnf6
+191.96.254.138:6185:pvoijlsx:vfzapofkjnf6
+31.58.9.4:6077:pvoijlsx:vfzapofkjnf6
+198.46.161.42:5092:pvoijlsx:vfzapofkjnf6

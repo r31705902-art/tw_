@@ -1,0 +1,621 @@
+{
+    "meta": {
+        "target_trigger": "protected_register",
+        "trigger_time_unix": 1785255136.5837371,
+        "window_start_unix": 1785255126.5837371,
+        "window_end_unix": 1785255146.5837371,
+        "total_events_captured": 253,
+        "filtered_events_count": 14
+    },
+    "logs": [
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255128.6163404,
+            "timestamp_iso": "2026-07-28T16:12:08.616340Z",
+            "request_id": "18288.215",
+            "url": "https://gql.twitch.tv/gql",
+            "method": "POST",
+            "headers": {
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "X-Device-Id": "35b71742089c44308f6a08f5f08f56f1",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "sec-ch-ua-mobile": "?0",
+                "Client-Integrity": "v4.local.__5MSWVBWrbwzM_U2egrvbjMTB_DjonRcjjNWm12xGxV4flMz6RIYl_Gcxof22cyI8KQEn2Zu4hc56wJnSOEco0y6sYx0W0PkOX8b9cEfcmqDSDtN-8TBcGUcCpLjlntKHhOA9AM_lswwMtsGnXHdk6kTh3J3d8uVsRvCMsjqlOzM7HmZQwKma0CibbuciV5Nrt-k0n53rn7plPETCzfSzqFfQwS-udtfKPNI6-4fQ4sKmzDuLHgqtZw-MYSuJbRdQETfp-u2TM1Aj9c5a_Hicw7mmfQ8x8Qp1vFyKNOzrr0yVE3rCw_xoB6rQ_RmhK-eFEFKpsvIM22fUJI-qYi5VutUbBwrPtdDdgY756n98uEVuwfjOdwgHzl8uTUJm8OjOlFq68sBKTFAId2lqQ92UGwCwk1zVvCrLhJXCBfkDv7fFfBUhCOAMnuHTxwpcZbvZU",
+                "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+                "Client-Session-Id": "83d66c589cbb4b44",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "Client-Version": "b3c382ac-5d5d-4d76-98f2-b05bbd59bf18"
+            },
+            "post_data": "{\"query\":\"\\n  mutation SendEvents($input: SendSpadeEventsInput!) {\\n    sendSpadeEvents(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"data\":\"H4sIANjUaGoEA+1Uy27cMAz8F5336afsY9F7gQI9FYWgB+UVKluGJNsNgvx7qfV2sxs0l5wSIBcDHpLScDjUz0cCMwyRtCSYbphGpp3vmRkieC6jcQPZkNG7EXw0EEj7SPg4sgAhYIwZhYU0V1UlS9pIIQpRFFiRcmbwKQcTRC5zmnG5LVWptoWqq21DdbYVh1IIVTZCHykWCR7liUXTA2mPNS2zsjxmdEOkNcjwZaDelU2zIQpmI2ElkpeiPtZFdkAqRZEfqK44fkqdPpU+4h3K9dwkTsuy7OJi8MZdnDFwciGJ8BK2TvKzCi3hUzztreuwfENcYANPfMhiBuWWsGLPPR8PiIyWx6RnSgNxVhI0eA+KWT50E+/SCX7afv+BwUvMswuXW2jydkUiF/fqa5VpTvMsa+ihgBwwZ00+xTiGdr+/a+naQJAeIBG9Gfv5eN9BunzkISzOK4aVJ9ZNRoE1AzoAh7v6AudqJ3+tYTO3E6RvoqW5DbAh2skpMDX5i4jZLqc40d4JY4FJ1/fgcXp3DeGJIwpzD1LKK50V8pA3uiiUxqSLLdBqGMcGrelOEfG1w3aYrD3/dKh2Ai6UpoBypjPXBA8SzPy/gTw9bZ6XY1wYjxH6MQaGu/CPXOL6PpejbvLP5XjrcuC00ZujhT8mPpC2enVd3p9Rb/h9hFec7gpafxr1rUZ9xZbXV/zrty9M8QeEro82zkH+RuCDvMG//gJ1ke+OoggAAA==\",\"repository\":\"twilight\",\"encoding\":\"GZIP_B64\"}}}",
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "Array.from.length",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 150284
+                },
+                {
+                    "function": "U",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 4,
+                    "column_number": 115
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 148553
+                },
+                {
+                    "function": "st",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 234055
+                },
+                {
+                    "function": "Et",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 233097
+                },
+                {
+                    "function": "sendEvents",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 246991
+                }
+            ]
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255128.846737,
+            "timestamp_iso": "2026-07-28T16:12:08.846736Z",
+            "request_id": "18288.215",
+            "url": "https://gql.twitch.tv/gql",
+            "status": 200,
+            "status_text": "",
+            "headers": {
+                "access-control-allow-origin": "*",
+                "timing-allow-origin": "*",
+                "content-length": "128",
+                "alt-svc": "h3=\":443\";ma=3600,\"h3-29\"=\":443\";ma=3600,\"h3-27\"=\":443\";ma=3600",
+                "date": "Tue, 28 Jul 2026 16:12:58 GMT",
+                "content-type": "application/json",
+                "x-amzn-trace-id": "Self=1-6a68d50a-006dcd3b586dbdea55dedf9b;Root=1-6a68d50a-110d477eee192c8c58a1d343"
+            },
+            "mime_type": "application/json",
+            "remote_ip": "151.101.2.214"
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255133.1239588,
+            "timestamp_iso": "2026-07-28T16:12:13.123958Z",
+            "request_id": "18288.216",
+            "url": "https://gql.twitch.tv/gql",
+            "method": "POST",
+            "headers": {
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "X-Device-Id": "35b71742089c44308f6a08f5f08f56f1",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "sec-ch-ua-mobile": "?0",
+                "Client-Integrity": "v4.local.__5MSWVBWrbwzM_U2egrvbjMTB_DjonRcjjNWm12xGxV4flMz6RIYl_Gcxof22cyI8KQEn2Zu4hc56wJnSOEco0y6sYx0W0PkOX8b9cEfcmqDSDtN-8TBcGUcCpLjlntKHhOA9AM_lswwMtsGnXHdk6kTh3J3d8uVsRvCMsjqlOzM7HmZQwKma0CibbuciV5Nrt-k0n53rn7plPETCzfSzqFfQwS-udtfKPNI6-4fQ4sKmzDuLHgqtZw-MYSuJbRdQETfp-u2TM1Aj9c5a_Hicw7mmfQ8x8Qp1vFyKNOzrr0yVE3rCw_xoB6rQ_RmhK-eFEFKpsvIM22fUJI-qYi5VutUbBwrPtdDdgY756n98uEVuwfjOdwgHzl8uTUJm8OjOlFq68sBKTFAId2lqQ92UGwCwk1zVvCrLhJXCBfkDv7fFfBUhCOAMnuHTxwpcZbvZU",
+                "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+                "Client-Session-Id": "83d66c589cbb4b44",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "Client-Version": "b3c382ac-5d5d-4d76-98f2-b05bbd59bf18"
+            },
+            "post_data": "{\"query\":\"\\n  mutation SendEvents($input: SendSpadeEventsInput!) {\\n    sendSpadeEvents(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"data\":\"H4sIAN3UaGoEA21Sy47cIBD8F87jGT+wB/sY5R4pUk5RhHg0Ngo2FmD7sNp/TzMeJTtJLkhUVdPV1Xx/I7DDkshAoh2XbeXGh5nbJUEQKlm/kAtZg18hJAuRDG9ErCuPECNy3GosZI3uOtWyXklJJaVYkTU7hKxBgWxUw2qhila3uqD63hU9M3Uhy1ZK3fbSVAyLpEhq4snOQIbqztq6baumvhDlLDr8h7hWJb0QDbtVcBppWnmv7rQu0QqlTclMJ/BoTT46U2EP7Wdhs6fjOK7psNjxmnYkJh9zCH/DzivxSGEgYkvTzfkRyy/ER76I7IccdtH+iCf2Z+aqRGR1IuU8swzkI0kwEAJo7sQybmLML4St+PoNyScX+NPLR2gL7kSSkK/pG10bwZq67llJoQHUnOIppTUOt9vLSL8HiCoAZKMf1v54PoyQm3/+8onPfkkTgs+PMORNqJ8IzF5aB1z5eYaA6b8YQn7FwV5BxkRnaqrKpjeUaoOi51rxqyCPBp0dp4T46XBYNucelxHTyoARLgIOFzGO/OYpCKDA7v8L9P39xy+4bhle3gIAAA==\",\"repository\":\"twilight\",\"encoding\":\"GZIP_B64\"}}}",
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "Array.from.length",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 150284
+                },
+                {
+                    "function": "U",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 4,
+                    "column_number": 115
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 148553
+                },
+                {
+                    "function": "st",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 234055
+                },
+                {
+                    "function": "Et",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 233097
+                },
+                {
+                    "function": "sendEvents",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 246991
+                }
+            ]
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255133.367376,
+            "timestamp_iso": "2026-07-28T16:12:13.367376Z",
+            "request_id": "18288.216",
+            "url": "https://gql.twitch.tv/gql",
+            "status": 200,
+            "status_text": "",
+            "headers": {
+                "access-control-allow-origin": "*",
+                "timing-allow-origin": "*",
+                "content-length": "128",
+                "alt-svc": "h3=\":443\";ma=3600,\"h3-29\"=\":443\";ma=3600,\"h3-27\"=\":443\";ma=3600",
+                "date": "Tue, 28 Jul 2026 16:13:02 GMT",
+                "content-type": "application/json",
+                "x-amzn-trace-id": "Self=1-6a68d50e-065276a95201428723b75afc;Root=1-6a68d50f-b0f27d356fe8b16b19758883"
+            },
+            "mime_type": "application/json",
+            "remote_ip": "151.101.2.214"
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255136.5837371,
+            "timestamp_iso": "2026-07-28T16:12:16.583737Z",
+            "request_id": "71B4C9F566D1AED6C3E4434DF12DE510",
+            "url": "https://passport.twitch.tv/protected_register",
+            "method": "OPTIONS",
+            "headers": {
+                "Accept": "*/*",
+                "Access-Control-Request-Headers": "x-kpsdk-cd,x-kpsdk-ct,x-kpsdk-v",
+                "Access-Control-Request-Method": "POST",
+                "Origin": "https://www.twitch.tv",
+                "Sec-Fetch-Mode": "cors",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+            },
+            "post_data": null,
+            "initiator_type": "preflight",
+            "stacktrace": []
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255136.5858293,
+            "timestamp_iso": "2026-07-28T16:12:16.585829Z",
+            "request_id": "18288.217",
+            "url": "https://passport.twitch.tv/protected_register",
+            "method": "POST",
+            "headers": {
+                "x-kpsdk-ct": "0OPLte69O4WPzQYfvRT7cvS8OM8Td6RmdpvWevhfk3X7uq4x25RtPvqwTmEX7zaFjtuFjzGWZW7qryVg172DJIaNgMlSF54MfcmfOBu9cdN86lT4gublEWfWBMQ7KCpIRQrr8HGQZA5GrCj1ATGGELIoFf4bRe9xp7HYRNl2sM0vBPOO",
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "sec-ch-ua-mobile": "?0",
+                "x-kpsdk-v": "j-1.2.522",
+                "x-kpsdk-cd": "{\"workTime\":1785255185805,\"id\":\"27e347b9ce875208e072edca3865219e\",\"answers\":[9,6],\"duration\":86.1,\"d\":-49311,\"st\":1785255164668,\"rst\":1785255115357}",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "Content-Type": "text/plain;charset=UTF-8"
+            },
+            "post_data": "{\"username\":\"RislaWK2\",\"password\":\"rortotyuR1R1\",\"email\":\"blablablablublublutest@gmail.com\",\"birthday\":{\"day\":27,\"month\":8,\"year\":1975,\"isOver18\":true},\"email_verification_enabled\":false,\"client_id\":\"kimne78kx3ncx6brgo4mv6wki5h1ko\",\"is_password_guide\":\"nist\"}",
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "Array.from.length",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 150284
+                },
+                {
+                    "function": "U",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 4,
+                    "column_number": 115
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 148553
+                }
+            ]
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255136.6507134,
+            "timestamp_iso": "2026-07-28T16:12:16.650713Z",
+            "request_id": "18288.218",
+            "url": "https://gql.twitch.tv/gql",
+            "method": "POST",
+            "headers": {
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "X-Device-Id": "35b71742089c44308f6a08f5f08f56f1",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "sec-ch-ua-mobile": "?0",
+                "Client-Integrity": "v4.local.__5MSWVBWrbwzM_U2egrvbjMTB_DjonRcjjNWm12xGxV4flMz6RIYl_Gcxof22cyI8KQEn2Zu4hc56wJnSOEco0y6sYx0W0PkOX8b9cEfcmqDSDtN-8TBcGUcCpLjlntKHhOA9AM_lswwMtsGnXHdk6kTh3J3d8uVsRvCMsjqlOzM7HmZQwKma0CibbuciV5Nrt-k0n53rn7plPETCzfSzqFfQwS-udtfKPNI6-4fQ4sKmzDuLHgqtZw-MYSuJbRdQETfp-u2TM1Aj9c5a_Hicw7mmfQ8x8Qp1vFyKNOzrr0yVE3rCw_xoB6rQ_RmhK-eFEFKpsvIM22fUJI-qYi5VutUbBwrPtdDdgY756n98uEVuwfjOdwgHzl8uTUJm8OjOlFq68sBKTFAId2lqQ92UGwCwk1zVvCrLhJXCBfkDv7fFfBUhCOAMnuHTxwpcZbvZU",
+                "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+                "Client-Session-Id": "83d66c589cbb4b44",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "Client-Version": "b3c382ac-5d5d-4d76-98f2-b05bbd59bf18"
+            },
+            "post_data": "{\"query\":\"\\n  mutation SendEvents($input: SendSpadeEventsInput!) {\\n    sendSpadeEvents(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"data\":\"H4sIAODUaGoEA+1Ty4rcMBD8F53n4Yfs0fgYcg8EcgpB6NHyiMiWkWSbsOy/pzU2m51lrzks7EXg6upWdan884nAAmMiHYm2H+eJGx8GbscEQahk/UgOZAp+gpAsRNI9ETFNPEKMWONWYyOrdduqhl2VlFRSih2Zs0DIHCTIWtWsEurY6EYfqb60xysz1VEWjZS6uUpTMmySIqkbT3YA0pUX1lRNU9btgShnUeHbQnNq6+pANCxWwSakbuSlvNCqQCmU1gUzrcCjMfloTYl3aD8ImzWt63pKq8UbT2nBws3HbMJb2Hkl7i50RMzpdna+x/YD8ZGPIushqx21X+OG/du5LBCZnEjZz0wDeXcSDIQAmjsx9rPo84QwH7//wOJeC3zX8hqag9uQJOSj+0ZXRrC6qq6soFADcjbyLaUpdufzw0ovC0QVALLQV89+Hx96yJd//faF/wERENtz0OWHUL8RGLy0DrjywwABzX/Qg/UJ93oEGROtqagq6quhVBsk7a+KScE66nO2vyXEN4HdODt3/+jRrAwY4SLgbhHdyDM3QgAFdnnPz+fnw4fNdnui7PKZ7f+V7R2Wc0q4zzsBj37GXGcm9iR+z5xxfn0ZwhfhZshn1pnCjMn8IH/Fr7+12aA78wUAAA==\",\"repository\":\"twilight\",\"encoding\":\"GZIP_B64\"}}}",
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "Array.from.length",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 150284
+                },
+                {
+                    "function": "U",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 4,
+                    "column_number": 115
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 148553
+                },
+                {
+                    "function": "st",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 234055
+                },
+                {
+                    "function": "Et",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 233097
+                },
+                {
+                    "function": "sendEvents",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 246991
+                }
+            ]
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255136.8848784,
+            "timestamp_iso": "2026-07-28T16:12:16.884878Z",
+            "request_id": "18288.218",
+            "url": "https://gql.twitch.tv/gql",
+            "status": 200,
+            "status_text": "",
+            "headers": {
+                "access-control-allow-origin": "*",
+                "timing-allow-origin": "*",
+                "content-length": "128",
+                "alt-svc": "h3=\":443\";ma=3600,\"h3-29\"=\":443\";ma=3600,\"h3-27\"=\":443\";ma=3600",
+                "date": "Tue, 28 Jul 2026 16:13:06 GMT",
+                "content-type": "application/json",
+                "x-amzn-trace-id": "Self=1-6a68d512-208a58864381628c402060a0;Root=1-6a68d512-10bd9eb4b5a4c303bd789d91"
+            },
+            "mime_type": "application/json",
+            "remote_ip": "151.101.2.214"
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255140.097724,
+            "timestamp_iso": "2026-07-28T16:12:20.097723Z",
+            "request_id": "71B4C9F566D1AED6C3E4434DF12DE510",
+            "url": "https://passport.twitch.tv/protected_register",
+            "status": 200,
+            "status_text": "OK",
+            "headers": {
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Headers": "Auth-Action, Auth-Country-Code-Phone, Auth-Domain-Email, Auth-Method, Authy-ID, Client-ID, Client-Session-ID, Client-Version, Delegate-Client-ID, Device-ID, Spare-Key, Trusted-Twitch-Session, Webview-Encryption-Algorithm, Webview-Public-Key-Pem, X-App-Version, X-Auth-Action, X-Device-ID, X-Resend-Code, x-kpsdk-ct, x-kpsdk-cd, x-kpsdk-h, x-kpsdk-fc, x-kpsdk-v, x-kpsdk-r, x-kpsdk-im",
+                "Access-Control-Allow-Origin": "https://www.twitch.tv",
+                "Connection": "keep-alive",
+                "Content-Length": "0",
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' https://ajax.googleapis.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://connect.facebook.net https://www.google.com https://www.gstatic.com https://apis.google.com https://web-cdn.ttvnw.net https://www.authy.com https://www.recaptcha.net https://passport-cdn.ttvnw.net; style-src 'self' 'unsafe-inline' https://web-cdn.ttvnw.net https://cdnjs.cloudflare.com https://www.authy.com https://passport-cdn.ttvnw.net; img-src 'self' data: http://ssl.gstatic.com https://ssl.gstatic.com https://www.facebook.com https://www.authy.com; connect-src 'self' https://passport-cdn.ttvnw.net ws:; frame-src 'self' https://www.google.com https://www.facebook.com http://staticxx.facebook.com https://staticxx.facebook.com https://s-static.ak.facebook.com http://static.ak.facebook.com https://www.recaptcha.net; frame-ancestors 'self' *.twitch.tv http://127.0.0.1:*",
+                "Date": "Tue, 28 Jul 2026 16:13:09 GMT",
+                "Passport-Source": "shim",
+                "Strict-Transport-Security": "max-age=172800; includeSubDomains; preload",
+                "Via": "1.1 0a3da1730753369733bc0fce42f42a32.cloudfront.net (CloudFront)",
+                "X-Amz-Cf-Id": "9dO0NVLjlSQ_brXpOo_sPC4twroneJb7zUbe1LM0367xm2NrjmsBFw==",
+                "X-Amz-Cf-Pop": "FRA50-P1",
+                "X-Cache": "Miss from cloudfront",
+                "X-Content-Type-Options": "nosniff",
+                "X-Passport-Request-Id": "01KYMR0PXBQ7F2TMWM3RJBD1EM",
+                "X-Xss-Protection": "1; mode=block"
+            },
+            "mime_type": "",
+            "remote_ip": "3.171.214.41"
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255140.4957259,
+            "timestamp_iso": "2026-07-28T16:12:20.495725Z",
+            "request_id": "18288.217",
+            "url": "https://passport.twitch.tv/protected_register",
+            "status": 400,
+            "status_text": "Bad Request",
+            "headers": {
+                "X-Passport-Request-Id": "01KYMR0Q8RD3S3XXHS25PFM07S",
+                "X-Content-Type-Options": "nosniff",
+                "X-Cache": "Error from cloudfront",
+                "X-Amz-Cf-Id": "r7-SFzp9dRJjA0IitkguBbMY6CGwQAw52fF12ClB79xoqxBvVjgp2w==",
+                "Date": "Tue, 28 Jul 2026 16:13:09 GMT",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Headers": "Auth-Action, Auth-Country-Code-Phone, Auth-Domain-Email, Auth-Method, Authy-ID, Client-ID, Client-Session-ID, Client-Version, Delegate-Client-ID, Device-ID, Spare-Key, Trusted-Twitch-Session, Webview-Encryption-Algorithm, Webview-Public-Key-Pem, X-App-Version, X-Auth-Action, X-Device-ID, X-Resend-Code",
+                "Strict-Transport-Security": "max-age=172800; includeSubDomains; preload",
+                "Content-Security-Policy": "default-src 'self'; script-src 'self' https://ajax.googleapis.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://connect.facebook.net https://www.google.com https://www.gstatic.com https://apis.google.com https://web-cdn.ttvnw.net https://www.authy.com https://www.recaptcha.net https://passport-cdn.ttvnw.net; style-src 'self' 'unsafe-inline' https://web-cdn.ttvnw.net https://cdnjs.cloudflare.com https://www.authy.com https://passport-cdn.ttvnw.net; img-src 'self' data: http://ssl.gstatic.com https://ssl.gstatic.com https://www.facebook.com https://www.authy.com; connect-src 'self' https://passport-cdn.ttvnw.net ws:; frame-src 'self' https://www.google.com https://www.facebook.com http://staticxx.facebook.com https://staticxx.facebook.com https://s-static.ak.facebook.com http://static.ak.facebook.com https://www.recaptcha.net; frame-ancestors 'self' *.twitch.tv http://127.0.0.1:*",
+                "Connection": "keep-alive",
+                "Access-Control-Allow-Credentials": "true",
+                "Via": "1.1 eeaffe33600b94a3095dd45999e7f000.cloudfront.net (CloudFront)",
+                "Access-Control-Allow-Origin": "https://www.twitch.tv",
+                "Passport-Source": "shim",
+                "Content-Length": "90",
+                "X-Xss-Protection": "1; mode=block",
+                "X-Amz-Cf-Pop": "FRA50-P1"
+            },
+            "mime_type": "application/json",
+            "remote_ip": "3.171.214.41"
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255140.507829,
+            "timestamp_iso": "2026-07-28T16:12:20.507828Z",
+            "request_id": "18288.219",
+            "url": "https://assets.twitch.tv/assets/errors-ee4f440bc6d95157ac71.js",
+            "method": "GET",
+            "headers": {
+                "Origin": "https://www.twitch.tv",
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua-mobile": "?0"
+            },
+            "post_data": null,
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "b.l",
+                    "script_id": "45",
+                    "url": "https://www.twitch.tv/login",
+                    "line_number": 0,
+                    "column_number": 169203
+                },
+                {
+                    "function": "b.f.j",
+                    "script_id": "45",
+                    "url": "https://www.twitch.tv/login",
+                    "line_number": 0,
+                    "column_number": 175595
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "45",
+                    "url": "https://www.twitch.tv/login",
+                    "line_number": 0,
+                    "column_number": 7943
+                },
+                {
+                    "function": "b.e",
+                    "script_id": "45",
+                    "url": "https://www.twitch.tv/login",
+                    "line_number": 0,
+                    "column_number": 7921
+                },
+                {
+                    "function": "importSentry",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 221414
+                },
+                {
+                    "function": "init",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 221513
+                },
+                {
+                    "function": "report",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 223484
+                },
+                {
+                    "function": "Ki.logger.onError",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 268810
+                },
+                {
+                    "function": "T.write",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 326319
+                },
+                {
+                    "function": "errorAndReport",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 328396
+                },
+                {
+                    "function": "signup",
+                    "script_id": "72",
+                    "url": "https://assets.twitch.tv/assets/27618-712c0897191800e6e039.js",
+                    "line_number": 0,
+                    "column_number": 33426
+                }
+            ]
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255140.605074,
+            "timestamp_iso": "2026-07-28T16:12:20.605073Z",
+            "request_id": "18288.219",
+            "url": "https://assets.twitch.tv/assets/errors-ee4f440bc6d95157ac71.js",
+            "status": 200,
+            "status_text": "",
+            "headers": {
+                "content-encoding": "br",
+                "etag": "W/\"d497ca00f7125db9c20dc9cc6322a6f3\"",
+                "age": "2508733",
+                "report-to": "{\"group\":\"nel\",\"max_age\":2592000,\"include_subdomains\":true,\"endpoints\":[{\"url\":\"https://nel.twitch.tv/nel\"}]}",
+                "x-content-type-options": "nosniff",
+                "alt-svc": "h3=\":443\";ma=86400,h3-29=\":443\";ma=86400,h3-27=\":443\";ma=86400",
+                "date": "Tue, 28 Jul 2026 16:13:09 GMT",
+                "content-type": "application/x-javascript",
+                "vary": "Accept-Encoding, Origin",
+                "strict-transport-security": "max-age=600; includeSubDomains",
+                "cache-control": "public, max-age=31536000",
+                "timing-allow-origin": "*",
+                "nel": "{\"report_to\":\"nel\",\"max_age\":2592000,\"include_subdomains\":true,\"success_fraction\":0,\"failure_fraction\":1}",
+                "referrer-policy": "strict-origin-when-cross-origin",
+                "access-control-allow-origin": "https://www.twitch.tv",
+                "content-length": "105970"
+            },
+            "mime_type": "application/x-javascript",
+            "remote_ip": "151.101.194.214"
+        },
+        {
+            "event_type": "outgoing_request",
+            "timestamp_unix": 1785255141.5238295,
+            "timestamp_iso": "2026-07-28T16:12:21.523829Z",
+            "request_id": "18288.220",
+            "url": "https://gql.twitch.tv/gql",
+            "method": "POST",
+            "headers": {
+                "sec-ch-ua-platform": "\"Windows\"",
+                "Referer": "https://www.twitch.tv/",
+                "X-Device-Id": "35b71742089c44308f6a08f5f08f56f1",
+                "Accept-Language": "ru-RU",
+                "sec-ch-ua": "\"Chromium\";v=\"145\", \"Not:A-Brand\";v=\"99\"",
+                "sec-ch-ua-mobile": "?0",
+                "Client-Integrity": "v4.local.__5MSWVBWrbwzM_U2egrvbjMTB_DjonRcjjNWm12xGxV4flMz6RIYl_Gcxof22cyI8KQEn2Zu4hc56wJnSOEco0y6sYx0W0PkOX8b9cEfcmqDSDtN-8TBcGUcCpLjlntKHhOA9AM_lswwMtsGnXHdk6kTh3J3d8uVsRvCMsjqlOzM7HmZQwKma0CibbuciV5Nrt-k0n53rn7plPETCzfSzqFfQwS-udtfKPNI6-4fQ4sKmzDuLHgqtZw-MYSuJbRdQETfp-u2TM1Aj9c5a_Hicw7mmfQ8x8Qp1vFyKNOzrr0yVE3rCw_xoB6rQ_RmhK-eFEFKpsvIM22fUJI-qYi5VutUbBwrPtdDdgY756n98uEVuwfjOdwgHzl8uTUJm8OjOlFq68sBKTFAId2lqQ92UGwCwk1zVvCrLhJXCBfkDv7fFfBUhCOAMnuHTxwpcZbvZU",
+                "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+                "Client-Session-Id": "83d66c589cbb4b44",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+                "Content-Type": "application/json",
+                "Client-Version": "b3c382ac-5d5d-4d76-98f2-b05bbd59bf18"
+            },
+            "post_data": "{\"query\":\"\\n  mutation SendEvents($input: SendSpadeEventsInput!) {\\n    sendSpadeEvents(input: $input) {\\n      statusCode\\n    }\\n  }\\n\",\"variables\":{\"input\":{\"data\":\"H4sIAOXUaGoEA+1UTY/TMBD9K5XP7TZfTtMcESAktBK0QlqEkGXH49QijYPtJILV/nfGSaDtihOnPXCx4jfPM2++8uWRwACtJyWpGo0fDKw1lqxJZ00H1mtwpHwkvOuYA+e0aZmWyC5SmecVLfaVEJnIMnwROAPYwEGCSKu0SHi1oZLKTSZ3+WZfqGQjIiqEpHuh4gIfCe6rE/P6DKSMdwVNKI2zeP1bzTNDdEcjuiYSBl3BLCSlYhfvsiRCKVmWRoXKOR5UhSNXMcaQ5sx10DSO450fNUa88wMaTsaFzJ/Djam4n7PgvT9tG1Pj8zUxjrU86CGjbqUZ3Yxdco4jRLqGe2XsOdBATJUEhVUFyRre1j2vgwfbbw6f0LjYLFu0XEO9bWbEc3FbfSUTxYs0SfZFlEEKyJnJJ+87V263Nyn9SUBp65YOM9lb3dasQzmDhpGU3vawJrNxSfNNuJSrVxZzBbtqjV+5vuuM9SBXm5VuPdRW+x+r6RUGOHHHlPpJSsUbh97CXXgs6jWwu7prx+AsAHO6AN9aM7ZMGM96jMpQYJjPxR703taiKHiukqyK0r3KMqlQxjI8OJBoxzI0uj55xOc6lG3fNNOlxp4EYPE9hQs+Z4KFCvTwt7Y9Pa0ve+N03fa4HR46DPFi1yb/vzb/ujboFneiMhIV0CjBH5CrLECQvjR/Eh4kfO8BN2wKFsXvP98foo/F4XV6TB8e3h0T+uHtfbQ7IvOFjPHXX8SrYZQABgAA\",\"repository\":\"twilight\",\"encoding\":\"GZIP_B64\"}}}",
+            "initiator_type": "script",
+            "stacktrace": [
+                {
+                    "function": "Array.from.length",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 150284
+                },
+                {
+                    "function": "U",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 4,
+                    "column_number": 115
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "48",
+                    "url": "https://k.twitchcdn.net/149e9513-01fa-4fb0-aad4-566afd725d1b/2d206a39-8ed7-437e-a3be-862e0f06eea3/p.js",
+                    "line_number": 0,
+                    "column_number": 148553
+                },
+                {
+                    "function": "(anonymous)",
+                    "script_id": "88",
+                    "url": "https://assets.twitch.tv/assets/errors-ee4f440bc6d95157ac71.js",
+                    "line_number": 0,
+                    "column_number": 109474
+                },
+                {
+                    "function": "st",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 234055
+                },
+                {
+                    "function": "Et",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 233097
+                },
+                {
+                    "function": "sendEvents",
+                    "script_id": "30",
+                    "url": "https://assets.twitch.tv/assets/63598-b85bd6a216b2b6c2906a.js",
+                    "line_number": 0,
+                    "column_number": 246991
+                }
+            ]
+        },
+        {
+            "event_type": "incoming_response",
+            "timestamp_unix": 1785255141.7578828,
+            "timestamp_iso": "2026-07-28T16:12:21.757882Z",
+            "request_id": "18288.220",
+            "url": "https://gql.twitch.tv/gql",
+            "status": 200,
+            "status_text": "",
+            "headers": {
+                "access-control-allow-origin": "*",
+                "timing-allow-origin": "*",
+                "content-length": "128",
+                "alt-svc": "h3=\":443\";ma=3600,\"h3-29\"=\":443\";ma=3600,\"h3-27\"=\":443\";ma=3600",
+                "date": "Tue, 28 Jul 2026 16:13:11 GMT",
+                "content-type": "application/json",
+                "x-amzn-trace-id": "Self=1-6a68d517-59b0a8d94623c5283e795b24;Root=1-6a68d517-fa8123ea00bbdd4ad9708978"
+            },
+            "mime_type": "application/json",
+            "remote_ip": "151.101.2.214"
+        }
+    ]
+}

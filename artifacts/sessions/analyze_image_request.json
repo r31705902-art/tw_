@@ -1,0 +1,23 @@
+{
+  "created": "2026-07-26 12:47:48.090248",
+  "name": "session_20260726_124658",
+  "history": [
+    {
+      "timestamp": "2026-07-26 12:47:48.090248",
+      "type": "user_input",
+      "content": "Попробуй просмотреть изображение путь - \"\"C:\\Users\\Rb\\Pictures\\Screenshots\\Снимок экрана 2026-05-31 162242.png\"\" и скажи что на этом изображении видно"
+    },
+    {
+      "timestamp": "2026-07-26 12:47:50.306366",
+      "type": "tool_call",
+      "content": {
+        "name": "set_session_name",
+        "args": {
+          "name": "analyze_image_request"
+        },
+        "result": "Сессия переименована с 'session_20260726_124658' на 'analyze_image_request'."
+      }
+    }
+  ],
+  "updated": "2026-07-26 12:47:50.306366"
+}

@@ -1,0 +1,24 @@
+{
+  "created": "2026-07-27 18:22:19.489208",
+  "name": "session_20260727_182210",
+  "cwd": "C:\\Users\\Rb\\Desktop\\hzzzzz",
+  "history": [
+    {
+      "timestamp": "2026-07-27 18:22:19.490210",
+      "type": "user_input",
+      "content": "Попробуй подключится к моему серверу но в input_data добавь первым символом q с переносом строки (q\\n), чтобы закрыть приветствие tmate: ssh -tt -o StrictHostKeyChecking=no edDyATC9t2gqnKnwqU2MZc8yu@lon1.tmate.io input_data = \"q\\ncat /sys/fs/cgroup/cpu.max 2>/dev/null || cat /sys/fs/cgroup/cpu/cpu.shares\\ncat /sys/fs/cgroup/memory.max 2>/dev/null || cat /sys/fs/cgroup/memory/memory.limit_in_bytes\\nexit\\n\""
+    },
+    {
+      "timestamp": "2026-07-27 18:22:22.407786",
+      "type": "tool_call",
+      "content": {
+        "name": "set_session_name",
+        "args": {
+          "name": "tmate_connection_attempt"
+        },
+        "result": "Сессия переименована с 'session_20260727_182210' на 'tmate_connection_attempt'."
+      }
+    }
+  ],
+  "updated": "2026-07-27 18:22:22.407786"
+}
