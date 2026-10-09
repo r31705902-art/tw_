@@ -100,15 +100,20 @@ const tools = {
 
   run_script: {
     description: 'Run a shell command (near-unrestricted: node, npm, python, git, ssh, curl, compilers, package managers, arbitrary executables on PATH). Only workspace/box destruction is blocked.',
-    parameters: { type: 'object', properties: { cmd: { type: 'string' }, timeoutMs: { type: 'number' }, shell: { type: 'boolean' } }, required: ['cmd'] },
-    async run({ cmd, timeoutMs, shell: useShell }) {
+    parameters: { type: 'object', properties: { cmd: { type: 'string' }, timeoutMs: { type: 'number' } }, required: ['cmd'] },
+    async run({ cmd, timeoutMs }) {
       const timeout = Math.min(Number(timeoutMs || cfg.shell.timeoutMs), cfg.shell.maxTimeoutMs);
-      const parts = String(cmd).trim().split(/\s+/);
-      const bin = checkCmd(parts);
-      log.info('tools', `run: ${String(cmd).slice(0, 200)}`);
+      const line = String(cmd).trim();
+      // Shell metacharacters mean the command is a pipeline, not a single argv.
+      // Splitting on whitespace there silently mangles `a; b`, `a | b`, `a > f`
+      // — the agent writes those constantly, so honour them properly.
+      const needsShell = /[;&|><`$(){}[\]*?!~]/.test(line) || /\s/.test(line.trim().split(/\s+/)[0] || '');
+      const parts = line.split(/\s+/);
+      checkCmd(parts);
+      log.info('tools', `run: ${line.slice(0, 200)}`);
       return new Promise((resolve) => {
-        const child = useShell
-          ? spawn(String(cmd), [], { cwd: ROOT, shell: true, env: process.env })
+        const child = needsShell
+          ? spawn(line, [], { cwd: ROOT, shell: true, env: process.env })
           : spawn(parts[0], parts.slice(1), { cwd: ROOT, shell: false, env: process.env });
         let out = '';
         let err = '';
