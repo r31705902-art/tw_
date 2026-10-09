@@ -223,7 +223,16 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   // If every key of this provider is on cooldown, the cooldown is stale rather
   // than informative — clear it and try for real instead of reporting failure.
   if (candidates.length && candidates.every(k => k && keyBlocked(provider, k))) {
-    log.warn('llm', `${provider}: all keys on cooldown, clearing and retrying`);
+    // Distinguish a stale cooldown (retry now) from a daily cap (wait it out):
+    // clearing a 12h daily-cap block would hammer the gateway all over again.
+    const until = Math.max(...candidates.map(k => (cooldown[provider] && cooldown[provider][k]) || 0));
+    if (until - Date.now() > 5 * 60 * 1000) {
+      const err = new Error(`${provider}: all keys parked until ${new Date(until).toISOString().slice(11, 16)}Z`);
+      err.provider = provider;
+      err.noCredits = true;
+      throw err;
+    }
+    log.warn('llm', `${provider}: all keys on a short cooldown, clearing and retrying`);
     cooldown[provider] = {};
     candidates.length = 0;
     candidates.push(...ordered);
@@ -260,21 +269,24 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
       }
       if (status === 402) { attempts.push('402 no credits'); continue; }
       if (status === 429) {
-        // a daily free-tier cap is an ACCOUNT limit, not a per-key one — the
-        // other key of the same account may still have quota, so do NOT cool
-        // this key down, just try the next one
         const msg = ((json && json.error && json.error.message) || '').toLowerCase();
-        const daily = /free-models-per-day|daily|per day/.test(msg);
-        if (daily) {
-          // remember it: re-probing a spent provider every turn burns time and
-          // floods the log with noise
+        const daily = /free-models-per-day|daily limit|per day/.test(msg);
+        // Measured: with two openrouter keys, one returns 429 daily-cap while
+        // the other still answers 200. The cap is PER KEY — parking the whole
+        // provider would throw away the working key.
+        if (daily && key) {
+          blockKey(provider, key, 12 * 60 * 60 * 1000);
+          log.warn('llm', `${provider}: key …${String(key).slice(-4)} hit its daily cap for 12h`);
+          attempts.push('429 daily-cap');
+          continue;
+        }
+        if (daily && !key) {
           dailyCap[provider] = Date.now() + 12 * 60 * 60 * 1000;
-          log.warn('llm', `${provider}: daily free cap reached, parking it for 12h`);
           attempts.push('429 daily-cap');
           continue;
         }
         attempts.push('429 rate-limited');
-        blockKey(provider, key, 60 * 1000);
+        if (key) blockKey(provider, key, 60 * 1000);
         continue;
       }
       if (status >= 400) {
