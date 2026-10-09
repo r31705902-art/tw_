@@ -23,15 +23,28 @@ function resolveInside(p) {
 
 const tools = {
   read_file: {
-    description: 'Read a text file inside the workspace.',
-    parameters: { type: 'object', properties: { path: { type: 'string' }, maxBytes: { type: 'number' } }, required: ['path'] },
-    async run({ path: p, maxBytes = 200000 }) {
+    description: 'Read a text file inside the workspace. Supports offset/maxBytes to page through a large file.',
+    parameters: {
+      type: 'object',
+      properties: {
+        path: { type: 'string' },
+        offset: { type: 'number' },
+        maxBytes: { type: 'number' },
+      },
+      required: ['path'],
+    },
+    async run({ path: p, offset = 0, maxBytes = 200000 }) {
       const abs = resolveInside(p);
       const buf = fs.readFileSync(abs);
-      const out = buf.length > maxBytes ? buf.slice(0, maxBytes) : buf;
-      const text = out.toString('utf8');
-      log.debug('tools', `read ${p} (${buf.length}b)`);
-      return text;
+      const start = Math.max(0, Number(offset) || 0);
+      const slice = buf.subarray(start, start + maxBytes);
+      const text = slice.toString('utf8');
+      const end = start + slice.length;
+      const header = (start > 0 || end < buf.length)
+        ? `[bytes ${start}-${end} of ${buf.length}] — pass offset:${end} to continue\n`
+        : '';
+      log.debug('tools', `read ${p} bytes ${start}-${end}/${buf.length}`);
+      return header + text;
     },
   },
 
