@@ -102,7 +102,7 @@ class Agent {
         // A transient gateway failure (429, reset socket) must not discard the
         // task — retry it a couple of times before declaring it dead.
         const transient = /429|ECONNRESET|ETIMEDOUT|cooldown|rate|timeout|socket hang up|fetch failed/i.test(e.message);
-        if (transient && this.running && item.retries < 2) {
+        if (transient && this.running && (item.retries || 0) < 2) {
           item.retries = (item.retries || 0) + 1;
           log.warn('agent', `transient failure, retry ${item.retries}/2: ${e.message.slice(0, 90)}`);
           this.queue.unshift(item);
