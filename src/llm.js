@@ -200,6 +200,15 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   const candidates = ordered.length ? ordered : [null];
   const attempts = [];
 
+  // If every key of this provider is on cooldown, the cooldown is stale rather
+  // than informative — clear it and try for real instead of reporting failure.
+  if (candidates.length && candidates.every(k => k && keyBlocked(provider, k))) {
+    log.warn('llm', `${provider}: all keys on cooldown, clearing and retrying`);
+    cooldown[provider] = {};
+    candidates.length = 0;
+    candidates.push(...ordered);
+  }
+
   for (const key of candidates) {
     if (key && keyBlocked(provider, key)) { attempts.push('cooldown'); continue; }
     try {
@@ -224,7 +233,7 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
           });
           if (retry.status === 200) { log.info('llm', `${provider}: anonymous request accepted`); return normalize(retry.json); }
         } catch (e) { }
-        blockKey(provider, key, 15 * 60 * 1000);
+        blockKey(provider, key, 2 * 60 * 1000);
         attempts.push(`${status} auth`);
         continue;
       }
