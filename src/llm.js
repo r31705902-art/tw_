@@ -190,7 +190,7 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
   if (!spec) throw new Error(`unknown provider in model id: ${model}`);
 
   if (dailyCap[provider] && dailyCap[provider] > Date.now()) {
-    const err = new Error(`${provider} daily free cap reached`);
+    const err = new Error(`${provider} daily free cap reached (parked until ${new Date(dailyCap[provider]).toISOString().slice(11, 16)}Z)`);
     err.provider = provider;
     err.noCredits = true;
     err.parked = true;
@@ -219,6 +219,7 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
     ((cooldown[provider] && cooldown[provider][b]) || 0));
   const candidates = ordered.length ? ordered : [null];
   const attempts = [];
+  let lastSeen = '';
 
   // If every key of this provider is on cooldown, the cooldown is stale rather
   // than informative — clear it and try for real instead of reporting failure.
@@ -271,6 +272,7 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
       if (status === 429) {
         const msg = ((json && json.error && json.error.message) || '').toLowerCase();
         const daily = /free-models-per-day|daily limit|per day/.test(msg);
+        if (msg) lastSeen = `429: ${msg.slice(0, 120)}`;
         // Measured: with two openrouter keys, one returns 429 daily-cap while
         // the other still answers 200. The cap is PER KEY — parking the whole
         // provider would throw away the working key.
@@ -298,9 +300,10 @@ async function chatOne(model, { messages, tools, temperature, maxTokens }) {
       return normalize(json);
     } catch (e) {
       attempts.push(e.message);
+      lastSeen = e.message;
     }
   }
-  const detail = attempts.length ? attempts.join(' | ').slice(0, 240) : 'no attempts recorded';
+  const detail = attempts.length ? attempts.join(' | ').slice(0, 240) : (lastSeen || 'no attempts recorded');
 const err = new Error(`all ${provider} keys failed (${detail})`);
   err.provider = provider;
   const spent = attempts.every(a => a === '402 no credits' || a === 'cooldown' || a === '429 daily-cap');
