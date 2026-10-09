@@ -313,9 +313,11 @@ const err = new Error(`all ${provider} keys failed (${detail})`);
 
 async function chat(opts) {
   const primary = opts.model;
+  const tried = [];
   try {
     return await chatOne(primary, opts);
   } catch (e) {
+    tried.push(`${e.provider}: ${String(e.message).replace(/^all \w+ keys failed /, '').slice(0, 90)}`);
     if (!e.noCredits) throw e;
     // every key on this provider is dry or daily-capped — walk the fallback
     // chain, remembering which ones actually answer so later turns are cheap
@@ -340,12 +342,20 @@ async function chat(opts) {
         return out;
       } catch (e2) {
         log.warn('llm', `fallback ${p}:${pick} failed: ${e2.message.slice(0, 100)}`);
+        tried.push(`${p}: ${String(e2.message).slice(0, 90)}`);
         // this model is not usable for us; do not retry it every turn
         delete FALLBACK_PICK[p];
         if (!e2.noCredits) { /* keep walking the chain */ }
       }
     }
-    throw e;
+    // every provider exhausted — surface what actually happened, including the
+    // per-provider reasons, instead of the bare first error
+    const err = new Error(
+      `no provider available: ${tried.join(' -> ')}`.slice(0, 400)
+    );
+    err.provider = e.provider;
+    err.noCredits = true;
+    throw err;
   }
 }
 
