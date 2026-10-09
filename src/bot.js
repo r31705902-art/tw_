@@ -33,6 +33,12 @@ class TgBot {
     return false;
   }
 
+  // node-fetch puts the full request URL in its error messages, and that URL
+  // contains the bot token. Mask it before anything reaches a log file.
+  mask(msg) {
+    return String(msg || '').split(cfg.telegram.token).join('<BOT_TOKEN>');
+  }
+
   async api(method, body) {
     const fetch = require('node-fetch');
     const res = await fetch(`https://api.telegram.org/bot${cfg.telegram.token}/${method}`, {
@@ -50,7 +56,7 @@ class TgBot {
     this.running = true;
     started.at = Date.now();
     log.info('bot', 'telegram bot polling');
-    this.poll().catch(e => { log.error('bot', `poll died: ${e.message}`); this.running = false; });
+    this.poll().catch(e => { log.error('bot', `poll died: ${this.mask(e.message)}`); this.running = false; });
   }
 
   stop() {
@@ -66,10 +72,10 @@ class TgBot {
         });
         for (const u of updates) {
           this.offset = u.update_id + 1;
-          if (u.message) this.handle(u.message).catch(e => log.warn('bot', `handle: ${e.message}`));
+          if (u.message) this.handle(u.message).catch(e => log.warn('bot', `handle: ${this.mask(e.message)}`));
         }
       } catch (e) {
-        log.warn('bot', `poll error: ${e.message}`);
+        log.warn('bot', `poll error: ${this.mask(e.message)}`);
         await sleep(Math.max(2000, cfg.telegram.pollIntervalMs));
       }
       await sleep(cfg.telegram.pollIntervalMs);
@@ -106,8 +112,8 @@ class TgBot {
       // plain text is a task for the agent
       return this.agent.submit(text, 'telegram');
     } catch (e) {
-      log.error('bot', `command ${cmd} failed: ${e.message}`);
-      notify.error(`command failed: ${e.message}`);
+      log.error('bot', `command ${cmd} failed: ${this.mask(e.message)}`);
+      notify.error(`command failed: ${this.mask(e.message)}`);
     }
   }
 
@@ -179,7 +185,7 @@ class TgBot {
       notify.say([
         `\`${full}\` did NOT answer.`,
         ``,
-        `\`${String(e.message).slice(0, 300)}\``,
+        `\`${this.mask(String(e.message).slice(0, 300))}\``,
         ``,
         `model unchanged: \`${state.load().model}\``,
       ].join('\n'));
