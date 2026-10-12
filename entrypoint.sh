@@ -25,15 +25,21 @@ echo "  opencode     : $(opencode --version 2>/dev/null || echo 'unknown')"
 echo ""
 
 # После выхода из opencode пользователь получает обычный шелл, а не обрыв консоли.
+#
+# rendererType=dom обязателен: в ttyd 1.7.7 дефолт — webgl, а Tor Browser блокирует
+# и WebGL, и canvas ради защиты от fingerprinting. Без этой опции в Tor Browser
+# терминал рисуется мусором и выскакивает запрос разрешения на canvas.
+# DOM-рендерер рисует обычными узлами и работает везде, хоть и чуть медленнее.
 exec ttyd \
     --port "$PORT" \
     --writable \
     --max-clients "$MAX_CLIENTS" \
     --credential "${TTYD_USER}:${TTYD_PASSWORD}" \
     --cwd "$WORKDIR" \
+    --client-option "rendererType=dom" \
+    --client-option "titleFixed=opencode" \
     --client-option "fontSize=14" \
     --client-option "fontFamily=Menlo, Monaco, Consolas, monospace" \
     --client-option "scrollback=10000" \
     --client-option "cursorBlink=true" \
-    --client-option 'theme={"background":"#11111b","foreground":"#cdd6f4","cursor":"#f5e0dc"}' \
     /bin/bash -lc 'opencode; echo; echo "[opencode exited — dropping to shell]"; exec /bin/bash'
