@@ -8,6 +8,11 @@ TTYD_PASSWORD="${TTYD_PASSWORD:-opencode}"
 WORKDIR="${WORKDIR:-/workspace}"
 MAX_CLIENTS="${MAX_CLIENTS:-5}"
 
+# Размер шрифта определяет «разрешение» терминала: ttyd не имеет параметров
+# cols/rows, он считает их через FitAddon как (размер окна ÷ размер символа).
+# Меньший шрифт -> больше колонок и строк. Меняйте без пересборки образа.
+FONT_SIZE="${TTYD_FONT_SIZE:-14}"
+
 mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 
@@ -20,6 +25,7 @@ fi
 echo "opencode-on-railway"
 echo "  listening on : 0.0.0.0:${PORT}"
 echo "  workdir      : ${WORKDIR}"
+echo "  font size    : ${FONT_SIZE}px  (меньше -> больше колонок/строк)"
 echo "  login        : ${TTYD_USER} / ********"
 echo "  opencode     : $(opencode --version 2>/dev/null || echo 'unknown')"
 echo ""
@@ -38,7 +44,8 @@ exec ttyd \
     --cwd "$WORKDIR" \
     --client-option "rendererType=dom" \
     --client-option "titleFixed=opencode" \
-    --client-option "fontSize=14" \
+    --client-option "disableResizeOverlay=true" \
+    --client-option "fontSize=${FONT_SIZE}" \
     --client-option "fontFamily=Menlo, Monaco, Consolas, monospace" \
     --client-option "scrollback=10000" \
     --client-option "cursorBlink=true" \
